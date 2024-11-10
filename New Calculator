@@ -1,0 +1,224 @@
+package app;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.text.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Calculator2 extends JFrame implements ActionListener{
+	
+	private DecimalFormat df = new DecimalFormat("#,###.00");
+	private String[] symbols = {
+		"AC","DEL","%","/",
+		"7","8","9","x",
+		"4","5","6","-",
+		"1","2","3","+",
+		"0",".","Adv","="
+	};
+	private int operator = 0;
+	private JPanel panel = new JPanel(new BorderLayout(5,5));
+	private JPanel btnPanel = new JPanel(new GridLayout(5,5,5,5));
+	private JButton[] btns = new JButton[20];
+	private JTextArea screen = new JTextArea(6,40);
+	private double firstNum = 0 ,secondNum=0;
+	private JTextField calculatingTf = new JTextField(40);
+	
+	public Calculator2()  {
+		init();
+		
+	}
+	
+	private void init() {
+		
+		setTitle("Calculator");
+		screen.setBackground(Color.GRAY);
+		panel.setBackground(Color.GRAY);
+		btnPanel.setBackground(Color.GRAY);
+		screen.setForeground(Color.ORANGE);
+		
+		
+		//Font screenFont = new Font("Times new Roman",Font.BOLD,24);
+		
+		
+		for(int i = 0; i <btns.length; i++ ) {
+			btns[i] = new JButton(symbols[i]);
+			
+			Font buttonFont = new Font("Arial",Font.LAYOUT_RIGHT_TO_LEFT,20);
+			LineBorder buttonBorder = new LineBorder(Color.WHITE,2);
+			
+			btns[i].setOpaque(true);
+			btns[i].setBackground(Color.BLACK);
+			btns[i].setForeground(Color.WHITE);
+			btns[i].setFont(buttonFont);
+			btns[i].setBorder(buttonBorder);
+			btns[i].getBorder();
+			btns[i].setBounds(3, 3, 3, 3);
+			btns[i].setBorderPainted(true);
+			btns[i].addActionListener(this);
+			btnPanel.add(btns[i]);
+		
+		
+		}
+		
+		calculatingTf.setForeground(Color.WHITE);
+		calculatingTf.setBackground(Color.BLACK);
+		calculatingTf.setEditable(false);
+	    calculatingTf.setFont(new Font("Arial", Font.PLAIN, 18));
+	   
+	    panel.add(screen, BorderLayout.NORTH);
+		panel.add(calculatingTf, BorderLayout.SOUTH);
+		panel.add(btnPanel,BorderLayout.CENTER);
+		//screen.setFont(screenFont);;
+		
+		
+		add(panel);
+		setSize(340,500 );
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		
+	}
+	
+	public static void main(String[] args) {
+		new Calculator2();
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		String cmd = e.getActionCommand().toString();
+		
+		switch (cmd) {
+			case".": 
+				if (!screen.getText().contains(".")) {
+					screen.setText(screen.getText() + ".");
+				}
+				break;
+			case"0":
+				screen.setText(screen.getText() + "0");
+				break;
+			case"1":
+				screen.setText(screen.getText() + "1");
+				break;
+			case"2":
+				screen.setText(screen.getText() + "2");
+				break;
+			case"3":
+				screen.setText(screen.getText() + "3");
+				break;	
+			case"4":
+				screen.setText(screen.getText() + "4");
+				break;	
+			case"5":
+				screen.setText(screen.getText() + "5");
+				break;
+			case"6":
+				screen.setText(screen.getText() + "6");
+				break;
+			case"7":
+				screen.setText(screen.getText() + "7");
+				break;
+			case"8":
+				screen.setText(screen.getText() + "8");
+				break;
+			case"9":
+				screen.setText(screen.getText() + "9");
+				break;
+			case"+":
+				if (!screen.getText().isEmpty()) {
+					
+					firstNum = Double.parseDouble(screen.getText().toString());
+					operator = 1;
+					screen.setText("");
+				}
+				
+				break;
+			case"-":
+				if (!screen.getText().isEmpty()) {
+					
+					firstNum = Double.parseDouble(screen.getText().toString());
+					operator = 2;
+					screen.setText("");
+				}
+				
+				break;
+			case"x":
+				if (!screen.getText().isEmpty()) {
+					
+					firstNum = Double.parseDouble(screen.getText().toString());
+					operator = 3;
+					screen.setText("");
+				}
+				break;
+			case"/":
+				if (!screen.getText().isEmpty()) {
+					
+					firstNum = Double.parseDouble(screen.getText().toString());
+					operator = 4;
+					screen.setText("");
+				}
+				break;
+			case"%":
+				double num =Double.parseDouble(screen.getText().toString());
+				screen.setText(String.valueOf(num/100));
+				break;
+			case"AC":
+				screen.setText("");
+				break;
+			case"DEL":
+				int length = screen.getText().length();
+	            if (length > 0) {
+	                StringBuilder numString = new StringBuilder(screen.getText());
+	                numString.deleteCharAt(length - 1);
+	                screen.setText(numString.toString());
+	            }    
+			
+			
+			default :
+	
+		}
+		
+		
+		if (cmd.equalsIgnoreCase("=")) {
+			if (!screen.getText().isEmpty()) {
+				
+				if (!screen.getText().isEmpty()) {
+					
+					secondNum = Double.parseDouble(screen.getText().toString());
+					
+					switch (operator) {
+					 	case 1: 
+					 		screen.setText(String.valueOf(firstNum + secondNum));
+					 		calculatingTf.setText(String.valueOf(firstNum + "+" + secondNum + "=" + 
+					 		(df.format(firstNum + secondNum))));
+					 			
+					 		break;
+					 	
+					 	case 2:
+					 		screen.setText(String.valueOf(firstNum - secondNum));
+					 		calculatingTf.setText(String.valueOf(firstNum + "-" + secondNum + "=" + 
+					 		(df.format(firstNum - secondNum))));
+					 		
+					 		break;
+					 	
+					 	case 3: 
+					 		screen.setText(String.valueOf(firstNum * secondNum));
+					 		calculatingTf.setText(String.valueOf(firstNum + "x" + secondNum + "=" + 
+					 		(df.format(firstNum * secondNum))));
+					 		
+					 		break;
+					 		
+					 	case 4: 
+					 		screen.setText(String.valueOf(firstNum / secondNum));
+					 		calculatingTf.setText(String.valueOf(firstNum + "/" + secondNum + "=" + 
+					 		(df.format(firstNum / secondNum))));
+					 		
+					 		break;
+					 		
+					 	default : 	
+					} 
+				}			
+			}		
+		}
+	}
+}
