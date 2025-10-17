@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Calculator2 extends JFrame implements ActionListener{
+public class Calculator extends JFrame implements ActionListener{
 	
 	private DecimalFormat df = new DecimalFormat("#,###.00");
 	private String[] symbols = {
@@ -24,7 +24,7 @@ public class Calculator2 extends JFrame implements ActionListener{
 	private double firstNum = 0 ,secondNum=0;
 	private JTextField calculatingTf = new JTextField(40);
 	
-	public Calculator2()  {
+	public Calculator()  {
 		init();
 		
 	}
@@ -80,7 +80,7 @@ public class Calculator2 extends JFrame implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-		new Calculator2();
+		new Calculator();
 	}
 	
 	@Override
